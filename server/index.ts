@@ -54,9 +54,8 @@ app.use((req, res, next) => {
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
-    // ✅ production에서는 dist/public 폴더 서빙
-    import expressStatic from "express";
-    app.use(expressStatic.static(path.join(__dirname, "public")));
+    // ✅ production 환경: 정적 파일 서빙
+    app.use(express.static(path.join(__dirname, "public")));
 
     app.get("*", (_req, res) => {
       res.sendFile(path.join(__dirname, "public", "index.html"));
@@ -65,6 +64,6 @@ app.use((req, res, next) => {
 
   const PORT = process.env.PORT || 8080;
   app.listen(PORT, () => {
-    console.log(`[express] serving on port ${PORT}`);
+    console.log(`[express] Server running on port ${PORT}`);
   });
 })();
